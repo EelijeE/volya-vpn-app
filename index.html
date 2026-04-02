@@ -305,7 +305,19 @@
             </div>
         </div>
 
-        <a href="v2box://install-sub?url=https://ТВОЙ_САЙТ/sub/ТВОЙ_КОД" class="btn connect-btn" id="connectVpnBtn">🚀 ПОДКЛЮЧИТЬ VPN</a>
+        <button class="btn connect-btn" onclick="requestVpnConfig()">🚀 ПОДКЛЮЧИТЬ VPN</button>
+
+<script>
+    // ... твой существующий код JS ...
+
+    // Новая функция для запроса конфига
+    function requestVpnConfig() {
+        tg.sendData(JSON.stringify({
+            action: 'get_config'
+        }));
+        // Web App закроется автоматически после отправки данных
+    }
+</script>
     </div>
 
     <div class="modal-overlay" id="paymentModal">

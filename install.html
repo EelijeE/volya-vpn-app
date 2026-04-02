@@ -6,20 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
         window.onload = function() {
-            // Берем ссылку на конфиг, которую нам передал бот
             const urlParams = new URLSearchParams(window.location.search);
             const config = urlParams.get('config');
             
             if (config) {
-                // Магия: заставляем браузер открыть приложение V2Box
-                window.location.href = "v2box://install-sub?url=" + encodeURIComponent(config);
+                let redirectUrl = "";
                 
-                // Если браузер заблокировал авто-переход (бывает на некоторых iPhone), даем кнопку
+                // Проверяем: если это подписка (начинается с http), используем install-sub
+                if (config.startsWith("http")) {
+                    redirectUrl = "v2box://install-sub?url=" + encodeURIComponent(config);
+                } 
+                // Если это одиночный конфиг (vless://, vmess://), просто открываем его напрямую!
+                else {
+                    redirectUrl = config;
+                }
+                
+                // Магия переадресации
+                window.location.href = redirectUrl;
+                
+                // Кнопка на случай, если айфон заблокировал авто-переход
                 setTimeout(() => {
                     document.body.innerHTML = `
                         <h2 style="font-family: sans-serif; text-align: center; margin-top: 50px;">
                             Если V2Box не открылся автоматически,<br><br>
-                            <a href="v2box://install-sub?url=${encodeURIComponent(config)}" style="background: #007bff; color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; display: inline-block;">НАЖМИТЕ СЮДА</a>
+                            <a href="${redirectUrl}" style="background: #007bff; color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; display: inline-block;">НАЖМИТЕ СЮДА</a>
                         </h2>`;
                 }, 1500);
             } else {

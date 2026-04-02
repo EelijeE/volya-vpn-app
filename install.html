@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Установка VPN</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        window.onload = function() {
+            // Берем ссылку на конфиг, которую нам передал бот
+            const urlParams = new URLSearchParams(window.location.search);
+            const config = urlParams.get('config');
+            
+            if (config) {
+                // Магия: заставляем браузер открыть приложение V2Box
+                window.location.href = "v2box://install-sub?url=" + encodeURIComponent(config);
+                
+                // Если браузер заблокировал авто-переход (бывает на некоторых iPhone), даем кнопку
+                setTimeout(() => {
+                    document.body.innerHTML = `
+                        <h2 style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+                            Если V2Box не открылся автоматически,<br><br>
+                            <a href="v2box://install-sub?url=${encodeURIComponent(config)}" style="background: #007bff; color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; display: inline-block;">НАЖМИТЕ СЮДА</a>
+                        </h2>`;
+                }, 1500);
+            } else {
+                document.body.innerHTML = "<h3 style='text-align: center;'>Ошибка: Ссылка не найдена.</h3>";
+            }
+        }
+    </script>
+</head>
+<body style="background: #1e1e1e; color: white;">
+    <h2 style="font-family: sans-serif; text-align: center; margin-top: 50px;">Открываем приложение V2Box... ⏳</h2>
+</body>
+</html>

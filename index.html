@@ -337,7 +337,11 @@
 
         // === ЛОГИКА БАЛАНСА ===
         // В будущем ты будешь получать эту цифру из Python-бота
-        let currentBalance = -2; 
+        // === ЛОГИКА БАЛАНСА ===
+        // Читаем баланс, который бот передал нам в ссылке
+        const urlParams = new URLSearchParams(window.location.search);
+        // Если бот передал баланс, берем его. Если нет — показываем 0.
+        let currentBalance = parseInt(urlParams.get('balance')) || 0; 
 
         function updateBalanceUI() {
             const display = document.getElementById('balanceDisplay');
